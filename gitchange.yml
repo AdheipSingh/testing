@@ -1,0 +1,22 @@
+---
+ - hosts: 127.0.0.1
+   connection: local
+   tasks:
+        - name: RUN THE SCRIPT
+          shell: ./adhoc.sh
+          register: script_output
+          ignore_errors: yes
+          args:
+                chdir: /root/adheip 
+
+        - debug:
+                var: script_output
+
+        - name: GIT PUSH 
+          shell: git push origin master
+          when: script_output.stdout == "1"
+          args:
+                chdir: /root/adheip 
+      
+
+        
