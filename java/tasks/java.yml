@@ -1,0 +1,61 @@
+---
+        - name: CHECK THE STATUS OF THE HELLO1.JAVA 
+          stat:
+                path: "{{ path1 }}"
+          register: st_test1
+
+        - debug:
+                var: st_test1
+
+        - name: CHECK THE STATUS OF THE HELLO2.JAVA
+          stat:
+                path: "{{ path2 }}"
+          register: st_test2
+
+        - debug:
+                var: st_test2
+
+        - name: CHECK THE STATUS OF THE HELLO3.JAVA
+          stat: 
+                path: "{{ path3 }}"
+          register: st_test3
+
+        - debug:
+                var: st_test3
+
+        - name: CREATE THE DIRECTORY IN GIT SERVER
+          file:
+                path: "{{ gitrepo }}"
+                state: directory
+          when: st_test1.stat.exists == true and st_test2.stat.exists == true and st_test3.stat.exists == true
+          
+        - name: INITIALIZE THE REPOSITORY
+          shell: "{{ item }}"
+          with_items:
+                - git init
+                - git remote add origin "{{ giturl }}"
+                - git pull origin master
+          args:
+                chdir: "{{ gitrepo }}"
+                
+        - name: COPY THE FILES INTO THE GIT INITIALIZED REPOSITORY
+          copy:
+                src: "{{ item.src }}"
+                dest: "{{ item.dest }}"
+          with_items:
+                - { src: "{{ src1 }}" , dest: "{{ code1 }}" }
+                - { src: "{{ src2 }}" , dest: "{{ code2 }}" }
+                - { src: "{{ src3 }}" , dest: "{{ code3 }}" }
+
+
+        - name: GIT ADD THE FILES
+          shell: git add "{{ item }}"
+          with_items:
+                - "{{ code1 }}"
+                - "{{ code2 }}"
+                - "{{ code3 }}"
+          args:
+                chdir: "{{ gitrepo }}"
+
+
+                                          

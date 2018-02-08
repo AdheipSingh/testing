@@ -1,0 +1,13 @@
+---
+path1: /root/jenkins/Hello1st.class
+path2: /root/jenkins/Hello2nd.class
+path3: /root/jenkins/Hello3rd.class
+gitrepo: /root/adheip
+giturl: git@github.com:AdheipSingh/testing.git
+src1: /root/jenkins/Hello1st.java
+src2: /root/jenkins/Hello2nd.java
+src3: /root/jenkins/Hello3rd.java
+code1: /root/adheip/Hello1.java 
+code2: /root/adheip/Hello2.java
+code3: /root/adheip/Hello3.java
+commit: codes
